@@ -50,6 +50,7 @@ import general from './components/general';
 import admin from './components/admin';
 import user from './components/user';
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import MainRoute from './Dashboard/Route';
 
 // import {BrowserHistory } from 'react-history';
 // import store from './store';
@@ -63,10 +64,7 @@ class App extends Component {
        <div className="App">
        <Router>  
       <div>
-            <Router path= "/" component = {SigninForm}/>
-           <Route path="/general" component = {general} />
-           <Route path="/admin" component = {admin} />
-           <Route path="/user" component = {user} />
+      <MainRoute/>
       </div>
 
       </Router>
@@ -78,3 +76,4 @@ class App extends Component {
 }
 
 export default App;
+
