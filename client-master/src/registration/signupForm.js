@@ -9,6 +9,14 @@ const options = [
                 {key:2, text: 'Authorized', value:2 },
                 {key:3, text: 'General', value:3 },
             ]
+
+const validate = (email, password) => {
+
+    return{
+        email: email.length === 0,
+        password: password.length === 0
+    };
+}
     
 class RegistrationForm extends Component {
     constructor(props){
@@ -21,39 +29,29 @@ class RegistrationForm extends Component {
             password: "",
             salutation: "",
             user_role: "",
-            agree_terms_condition: ""
+            agree_terms_condition: "",
+
+            touched: {
+
+            }
         };
     }
     
     // errors: {
-
+    //     first_name: false,
+    //     last_name: false,
     // }
     
-    onChange = (e) => {
-        this.setState({ first_name: e.target.value });
-        this.setState({ last_name: e.target.value });
-        this.setState({ email: e.target.value });
-        this.setState({ password: e.target.value });
-        this.setState({ salutation: e.target.value });
-        this.setState({ user_role: e.target.value });
-        this.setState({ first_name: e.target.value });
+    onChange = (e) => {  
+        this.setState({ [e.target.name]: e.target.value });
 
     }
-
-    canBeSubmitted(){
-        const { first_name, 
-            last_name, 
-            email, 
-            password, 
-        } = this.state;
-        return(
-        first_name.length > 0 && 
-        last_name.length > 0 &&
-        email.length > 0 &&
-        password.length > 0 
-        // salutation === true
-        );
+    handleRadioChange = (e, { value }) => { 
+        this.setState({ 
+        salutation:value
+     })
     }
+
 
     onSubmit = (e) => {
         if( !this.canBeSubmitted()){
@@ -67,13 +65,37 @@ class RegistrationForm extends Component {
         //     salutation, 
         //     user_role} = this.state;
         //     alert('signed up with ${email}');
-    };
+    }
 
 
+    canBeSubmitted(){
+        const errors = validate(this.state.email, this.state.password);
+
+        const isDisabled = Object.keys(errors).some(x => errors[x]);
+        // const { first_name, 
+        //     last_name, 
+        //     email, 
+        //     password, 
+        // } = this.state;
+        // return(
+        // first_name.length > 0 && 
+        // last_name.length > 0 &&
+        // email.length > 0 &&
+        // password.length > 0 
+        // // salutation === true
+        // );
+
+        return !isDisabled;
+    }
     
     render() {
         
-        const isEnabled = this.canBeSubmitted();
+        // const isEnabled = this.canBeSubmitted();
+        // const isEnabled = !Object.keys(errors).some(x => errors[x]);
+    
+        const errors = validate(this.state.email, this.state.password);
+        const isDisabled = Object.keys(errors).some(x => errors[x]);
+
         return (
         <Form onSubmit={this.onSubmit}>
             <Form.Group widths='equal'>
@@ -89,7 +111,7 @@ class RegistrationForm extends Component {
                 placeholder='Last name' 
                 name= 'last_name'
                 onChange= {this.onChange}
-                value= {this.state.first_name}   
+                value= {this.state.last_name}   
             />
             <Form.Select 
                 fluid label='Role' 
@@ -100,22 +122,24 @@ class RegistrationForm extends Component {
 
             <Form.Group widths='equal'>
             <Form.Input 
+                className = {errors.email ? 'error' : ''}
                 fluid label='Email' 
                 placeholder='Email' 
                 name= 'email'
+                value= {this.state.email || ''}
                 onChange= {this.onChange}
-                value= {this.state.first_name}
                 /> 
             </Form.Group>
 
             <Form.Group widths='equal'>
             <Form.Input 
+                className={errors.password ? "error" : ""}
                 fluid label='Password' 
                 placeholder='Password' 
                 name= 'password' 
                 type='password'
                 onChange= {this.onChange}
-                value= {this.state.first_name}
+                value= {this.state.password || ''}
                 />            
             </Form.Group>
 
@@ -126,20 +150,20 @@ class RegistrationForm extends Component {
            <Form.Radio
                 label='MR.'
                 value='mr'
-                checked={this.value === 'mr'}
-                onChange={this.onChange}
+                checked={this.state.salutation === 'mr'}
+                onClick={this.handleRadioChange}
             />
             <Form.Radio
                 label='MS.'
                 value='ms'
-                checked={this.value === 'ms'}
-                onChange={this.onChange}
+                checked={this.state.salutation === 'ms'}
+                onClick={this.handleRadioChange}
             />
             <Form.Radio
                 label='MRS.'
                 value='mrs'
-                checked={this.value === 'mrs'}
-                onChange={this.onChange}
+                checked={this.state.salutation === 'mrs'}
+                onClick={this.handleRadioChange}
             />
             </Form.Group>
             
@@ -148,7 +172,7 @@ class RegistrationForm extends Component {
                 required
             />
             
-            <Form.Button disabled={!isEnabled}>Register</Form.Button>
+            <Form.Button disabled={isDisabled}>Register</Form.Button>
         </Form>
         )
     }
