@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import 'semantic-ui-css/semantic.min.css'
 import { Form } from 'semantic-ui-react'
-// import Authentication from '../authentication/authentication'
-// import { Link } from 'react-router-dom'
 
 const options = [
                 {key:1, text: 'Admin', value:1 },
@@ -32,20 +30,26 @@ class RegistrationForm extends Component {
             agree_terms_condition: "",
 
             touched: {
-
+                first_name: false,
+                last_name: false,
+                email: false,
+                password: false
             }
         };
     }
     
-    // errors: {
-    //     first_name: false,
-    //     last_name: false,
-    // }
+    handleBlur = (field) => (e) => {
+        this.setState({
+            touched: { ...this.state.touched, [field]: true}
+        });
+    }
+
     
     onChange = (e) => {  
         this.setState({ [e.target.name]: e.target.value });
 
     }
+
     handleRadioChange = (e, { value }) => { 
         this.setState({ 
         salutation:value
@@ -58,13 +62,7 @@ class RegistrationForm extends Component {
             e.preventDefault();
             return;
         }
-        // const { first_name, 
-        //     last_name, 
-        //     email, 
-        //     password, 
-        //     salutation, 
-        //     user_role} = this.state;
-        //     alert('signed up with ${email}');
+       
     }
 
 
@@ -72,34 +70,26 @@ class RegistrationForm extends Component {
         const errors = validate(this.state.email, this.state.password);
 
         const isDisabled = Object.keys(errors).some(x => errors[x]);
-        // const { first_name, 
-        //     last_name, 
-        //     email, 
-        //     password, 
-        // } = this.state;
-        // return(
-        // first_name.length > 0 && 
-        // last_name.length > 0 &&
-        // email.length > 0 &&
-        // password.length > 0 
-        // // salutation === true
-        // );
 
         return !isDisabled;
     }
     
     render() {
         
-        // const isEnabled = this.canBeSubmitted();
-        // const isEnabled = !Object.keys(errors).some(x => errors[x]);
-    
         const errors = validate(this.state.email, this.state.password);
         const isDisabled = Object.keys(errors).some(x => errors[x]);
+
+        const shouldMarkError = (field) => {
+            const hasError = errors[field];
+            const shouldShow = this.state.touched[field];
+            return hasError ? shouldShow : false;
+        };
 
         return (
         <Form onSubmit={this.onSubmit}>
             <Form.Group widths='equal'>
             <Form.Input 
+                className= {shouldMarkError('first_name') ? 'error' : ''}
                 fluid label='First name' 
                 placeholder='First name' 
                 name= 'first_name'
@@ -107,6 +97,7 @@ class RegistrationForm extends Component {
                 value= {this.state.first_name}
             />
             <Form.Input 
+                className= {shouldMarkError('last_name') ? 'error' : ''}
                 fluid label='Last name' 
                 placeholder='Last name' 
                 name= 'last_name'
@@ -122,7 +113,7 @@ class RegistrationForm extends Component {
 
             <Form.Group widths='equal'>
             <Form.Input 
-                className = {errors.email ? 'error' : ''}
+                className = {shouldMarkError('email') ? 'error' : ''}
                 fluid label='Email' 
                 placeholder='Email' 
                 name= 'email'
@@ -133,7 +124,7 @@ class RegistrationForm extends Component {
 
             <Form.Group widths='equal'>
             <Form.Input 
-                className={errors.password ? "error" : ""}
+                className={shouldMarkError('password') ? "error" : ""}
                 fluid label='Password' 
                 placeholder='Password' 
                 name= 'password' 
