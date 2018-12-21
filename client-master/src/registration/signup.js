@@ -3,22 +3,140 @@ import { Button, Checkbox, Dropdown } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import Authentication from '../authentication/authentication'
 import { Link } from 'react-router-dom'
+import RegistrationForm from './signupForm'
 
 
-class RegistrationForm extends Component {
-    constructor(props){
-        super(props);
+// const login = (RegistrationForm) => {
+//     return dispatch => doLogin(RegistrationForm)
+//         .then(() => dispatch({ type: 'LOGGED_IN'}))
+//         .catch(() => dispatch({ type: 'LOGIN_FAILED'}))
+// }
 
-        
-    }
+// const initialState = {
+//     loggedIn: false,
+//     shouldRedirect: false,
+//     errorMessage: null
+// }
 
-    render(){
-        return(
-            
-        )
-    }
-}
+// const application = (state= initialState, action)=>{
+//     switch action.type (
+//         case 'LOGGED_IN':
+//             return Object.assign({}, state, {loggedIn: true, shouldRedirect: true})
+//         case 'LOGIN_FAILED':
+//             return Object.assign({}, state, {loggedIn: false, shouldRedirect: false, errorMessage: action.error.message})
+//     )
+//     return state
+// }
 
+// @connect(state => {application: state.application})
+
+// class Login extends Component {
+//     componentWillUpdate() {
+//         const {router} = this.context
+//         const {application} = this.props
+//         if( application.shouldRedirect )
+//             router.transition(...)
+//     }
+
+//     onSubmit(){
+//         const actions = bindActionCreators(applicationActions, dispatch)
+//         actions.login({...})
+//     }
+
+//     render(){
+//         const {errorMessage}= this.props
+//         return(
+//             <div>
+//                 {errorMessage ? <p>{errorMessage}</p> : null}
+//                 <form onSubmit={this.onSubmit}>
+//                  <div className='form-group'>
+//                  <label>First Name: </label>                  
+//                  <input 
+//                     placeholder= 'First Name' 
+//                     type = 'text'
+//                     name= 'first_name' 
+//                     onChange= {this.onChange}
+//                     value= {this.state.fields.first_name}
+//                 />
+//                 {this.state.errors.first_name && this.state.errors.first_name}
+//                 </div>
+//                 <br/> 
+//                 <div className='form-group'>
+//                     <label>Last Name: </label>
+//                     <input 
+//                         placeholder= 'Last Name' 
+//                         type = 'text'   
+//                         name= 'last_name'
+//                         onChange= {this.onChange}
+//                         value= {this.state.fields.last_name}
+//                     />
+//                 </div>  
+//                 <br/>                     
+//                 <div className='form-group'>
+//                     <label>Email: </label>
+//                     <input 
+//                         placeholder= 'Email' 
+//                         name= 'email' 
+//                         type= 'email'
+//                         onChange= {this.onChange}
+//                         value= {this.state.fields.email}
+//                     />
+//                 </div> 
+//                 <br/>                 
+//                 <div className='form-group'>
+//                     <label>Password: </label>
+//                     <input 
+//                         placeholder= 'Password' 
+//                         type= 'password'
+//                         name= 'password'  
+//                         minLength= '8' 
+//                         onChange= {this.onChange}
+//                         value= {this.state.fields.password}
+//                         required
+//                     />
+//                 </div>
+//                 <br/>     
+//                 <div>
+//                     <Dropdown 
+//                         placeholder='User Role'
+//                         clearable options= {options} selection
+//                     />  
+//                 </div>
+//                 <br/>               
+//                 <div>
+//                     <Checkbox label='Mr. '/>
+//                     <Checkbox label='Ms. '/>
+//                     <Checkbox label='Mrs. '/>
+//                 </div> 
+//                 <br/>                        
+//                 <div>
+//                     <Checkbox 
+//                         label='I agree to the terms and conditions' 
+//                         required />
+//                 </div>     
+//                 <br/> 
+//                 {Authentication.isUserAuthenticated() ? (
+//                 <div>
+//                     <Link to= "/login">
+//                     <Button type='submit'>Register</Button>
+//                     </Link>
+//                 </div>
+//                 ) : (
+//                     <div>
+                        
+//                         <Button type='submit'>Register</Button>
+                       
+//                     </div>
+//                 )}
+//                 <br/>
+                
+//             </form>   
+//             </div>
+//         )
+//     }
+// }
+
+// export default Login;
 
 // class RegistrationForm extends Component{
 //     constructor(props) {
@@ -226,5 +344,5 @@ class RegistrationForm extends Component {
 // }
 
 
-export default RegistrationForm;
+// export default RegistrationForm;
 

@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
-import './App.css';
+import './../App.css';
 import 'semantic-ui-css/semantic.min.css';
-import { BrowserRouter as Router} from "react-router-dom";
+// import { BrowserRouter as Router} from "react-router-dom";
 
-class App extends Component {
+class LoginPage extends Component {
   render() {
     return (
 
-      <Router>
-        <div className="App">
-          <h1>Welcome To Login Page</h1>
-        </div>
-      </Router>
+      <div>
+        <h1>Route</h1>
+      </div>
     );
   }
 }
 
-export default App;
+export default LoginPage;
