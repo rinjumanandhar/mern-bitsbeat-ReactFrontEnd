@@ -1,31 +1,34 @@
-import React from 'react';
+// import React from 'react';
 
 
 // let users = JSON.parse(localStorage.getItem('email')) || [];
 
 
 
-export default class RegisterUser extends React.Component {
-    constructor(props) {
-        super(props);
+// export default class RegisterUser extends React.Component {
+    // constructor(props) {
+        // super(props);
 
-        this.state = {apiData: []};
-    }
+        // this.state = {apiData: []};
+    // }
 
-    componentDidMount() {
+    // componentDidMount() {
+    // }
 
-        const callApi=(data)=>{
+        export const callApi=(first_name, last_name, email, password)=>{
+            console.log(first_name, last_name, email, password, 'akjasdkjas');
             const url = 'https://Stage-app1.xceltrip.com/api/promo'
             fetch(url, {
                 method: 'POST',
                 headers: {
                     'Conetnt-Type': 'application/json'
                 },
-                body:JSON.stringify({ data
-                    // "first_name": data.first_name,
-                    // "last_name": data.last_name,
-                    // "email": data.email,
-                    // "password": data.password,
+                body:JSON.stringify({
+                    //  data
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "email": email,
+                    "password": password,
                     // "salutation": data.salutation,
                     // "user_role": data.user_role,
                     // "agree_terms_condition": data.agree_terms_condition,
@@ -34,20 +37,21 @@ export default class RegisterUser extends React.Component {
                 )
             })
                 .then((result) => {
+                    console.log('result', result.json())
+                    // return result.json();
+                })
+                // .then((jsonResult)=>{
     
-                    return result.json();
-                }).then((jsonResult)=>{
+                //    this.setState(
+                //        {apiData:jsonResult.data.dataList}
+                //    )
+                // })
     
-                   this.setState(
-                       {apiData:jsonResult.data.dataList}
-                   )
-            })
-    
-        }
+        
     }
 
 
-    render(){ return(console.log('hhhh'))} ;
+    // render(){ return(console.log('hhhh'))} ;
 
 // const { apiData } =this.state;
 //         return (
@@ -65,4 +69,4 @@ export default class RegisterUser extends React.Component {
 //             </div>
 //         );
 //     }
-}
+// }

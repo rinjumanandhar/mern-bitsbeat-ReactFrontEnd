@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import { Button, Checkbox, Dropdown } from 'semantic-ui-react'
-import 'semantic-ui-css/semantic.min.css'
-import Authentication from '../authentication/authentication'
-import { Link } from 'react-router-dom'
-import RegistrationForm from './signupForm'
+// import React, { Component } from 'react'
+// import { Button,/ Checkbox, Dropdown } from 'semantic-ui-react'
+// import 'semantic-ui-css/semantic.min.css'
+// import Authentication from '../authentication/authentication'
+// import { Link } from 'react-router-dom'
+// import RegistrationForm from './signupForm'
 
 
 // const login = (RegistrationForm) => {

@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import 'semantic-ui-css/semantic.min.css'
 import { Form } from 'semantic-ui-react'
 import {withRouter} from 'react-router-dom';
-import RegisterUser from '../api/api';
+// import RegisterUser from '../api/api';
 import { NavLink } from 'react-router-dom'
+import  {callApi}  from './../api/api'
 
 
 const options = [
@@ -37,6 +38,7 @@ class RegistrationForm extends Component {
         super(props);
 
         this.state = {
+            
             first_name: "",
             last_name: "",
             email: "",
@@ -77,18 +79,23 @@ class RegistrationForm extends Component {
      })
     }
 
-    register = (data) => {
-        return RegisterUser(data)
-            .then( window.location.assign('/login') )
+    // register = (data) => {
+        // return RegisterUser(data)
+            // .then( window.location.assign('/login') )
+
         // localStorage.setItem('user', JSON.stringify(user)); )
-    }
+    // }
     onSubmit = (e) => {
         console.log("submitted.......")
 
-        if( !this.canBeSubmitted()){
+        // if( !this.canBeSubmitted()){
+            console.log('aksjdgaksgf')
             e.preventDefault();
             // return;
-            const {first_name, last_name, email, password} = this.register(this.state.data);
+            // const {first_name, last_name, email, password} = this.register(this.state.data);
+            const {first_name, last_name, email, password} = this.state;
+
+           callApi(first_name, last_name, email, password)
 
 
             // if (Object.keys(errors).length === 0){
@@ -99,7 +106,7 @@ class RegistrationForm extends Component {
 
             // let { fields } = this.state;
             
-        }
+        // }
        
     }
 
