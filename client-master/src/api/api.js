@@ -15,37 +15,44 @@
     // componentDidMount() {
     // }
 
-        export const callApi=(first_name, last_name, email, password)=>{
+        export const callApi=(first_name, last_name, email, password, salutation, user_role, agree_terms_condition)=>{
             console.log(first_name, last_name, email, password, 'akjasdkjas');
-            const url = 'https://Stage-app1.xceltrip.com/api/promo'
+            const url = 'http://192.168.31.50:8000/api/user'
+            // fetch
+            // const url = 'https://Stage-app1.xceltrip.com/api/promo'
             fetch(url, {
                 method: 'POST',
                 headers: {
-                    'Conetnt-Type': 'application/json'
+                    'Content-Type': 'application/json'
                 },
                 body:JSON.stringify({
                     //  data
-                    "first_name": first_name,
-                    "last_name": last_name,
-                    "email": email,
-                    "password": password,
-                    // "salutation": data.salutation,
-                    // "user_role": data.user_role,
-                    // "agree_terms_condition": data.agree_terms_condition,
+                    first_name: first_name,
+                    last_name: last_name,
+                    email: email,
+                    password: password,
+                    salutation: salutation,
+                    user_role: user_role,
+                    agree_terms_condition: agree_terms_condition,
                 }
     
                 )
             })
-                .then((result) => {
-                    console.log('result', result.json())
-                    // return result.json();
+                .then((response) => {
+                    // console.log('result', result.json())
+                    return response.json();
                 })
+                .then(response => JSON.stringify(response))
+                .catch(error => error)
                 // .then((jsonResult)=>{
     
                 //    this.setState(
                 //        {apiData:jsonResult.data.dataList}
                 //    )
                 // })
+                // .then(
+                //     fetch()
+                // )
     
         
     }

@@ -7,20 +7,25 @@ import { NavLink } from 'react-router-dom'
 import  {callApi}  from './../api/api'
 
 
-const options = [
-                {key:1, text: 'Admin', value:1 },
-                {key:2, text: 'Authorized', value:2 },
-                {key:3, text: 'General', value:3 },
+const user_role = [
+                {key:1, text: 'Superuser', value: 'superuser' },
+                {key:2, text: 'Enduser', value: 'enduser' },
+                {key:3, text: 'General', value: 'general' },
             ]
 
-const validate = (first_name, last_name, email) => {
-
+const validate = (first_name, last_name, email, password, salutation, user_role, agree_terms_condition) => {
+    console.log('inside validate')
+    console.log(user_role)
 
     return{
         first_name: first_name === '',
         last_name: last_name  === '',
         email: email  === '',
-        // password: password === ''
+        password: password === '',
+
+        salutation: salutation === '',
+        user_role: user_role === '',
+        agree_terms_conditions: agree_terms_condition === false
     };
 }
 
@@ -45,21 +50,35 @@ class RegistrationForm extends Component {
             password: "",
             salutation: "",
             user_role: "",
-            agree_terms_condition: "",
+            agree_terms_condition: false,
+            checked: false,
+            canBeSubmitted: false,
 
             touched: {
                 first_name: false,
                 last_name: false,
                 email: false,
-                password: false
+                password: false,
+                salutation: false,
+                user_role: false,
+                agree_terms_condition: false
             }
         };
     }
     componentDidMount(){
-
+        
     }
 
+    // checkCheckbox(form){
+    //     if(form.terms.checked){
 
+    //     }
+    // }
+    // onClick(e){
+
+    // }
+
+    toggle = () => this.setState({ checked: !this.state.checked})
 
     handleBlur = (field) => (e) => {
         this.setState({
@@ -73,12 +92,25 @@ class RegistrationForm extends Component {
 
     }
 
+    handleDropDown = (e, {value}) => {
+        this.setState({
+            ...this.state,
+            user_role: value
+        })
+    }
+
     handleRadioChange = (e, { value }) => { 
         this.setState({ 
         salutation:value
      })
     }
 
+    onToggle = (event, data) => {
+        
+        this.setState({
+            [data.name]:data.checked
+        })
+    }
     // register = (data) => {
         // return RegisterUser(data)
             // .then( window.location.assign('/login') )
@@ -86,16 +118,17 @@ class RegistrationForm extends Component {
         // localStorage.setItem('user', JSON.stringify(user)); )
     // }
     onSubmit = (e) => {
+        e.preventDefault();
+
         console.log("submitted.......")
 
         // if( !this.canBeSubmitted()){
             console.log('aksjdgaksgf')
-            e.preventDefault();
             // return;
             // const {first_name, last_name, email, password} = this.register(this.state.data);
-            const {first_name, last_name, email, password} = this.state;
+            const {first_name, last_name, email, password, salutation, user_role, agree_terms_condition} = this.state;
 
-           callApi(first_name, last_name, email, password)
+           callApi(first_name, last_name, email, password, salutation, user_role, agree_terms_condition)
 
 
             // if (Object.keys(errors).length === 0){
@@ -112,19 +145,21 @@ class RegistrationForm extends Component {
 
 
     canBeSubmitted(){
-        const errors = validate(this.state.first_name, this.state.last_name, this.state.email, this.state.password);
+        const errors = validate(this.state.first_name, this.state.last_name, this.state.email, this.state.password, this.state.salutation, this.state.user_role, this.state.agree_terms_condition);
+        console.log(errors, "validation error return value");
+        let isDisabled = Object.keys(errors).some(x => errors[x]);
 
-        const isDisabled = Object.keys(errors).some(x => errors[x]);
-
-        return !isDisabled;
+        return isDisabled;
     }
     
+
+
     render() {
         
-        const errors = validate(this.state.email, this.state.password);
+        const errors = validate(this.state.first_name, this.state.last_name, this.state.email, this.state.password, this.state.salutation, this.state.user_role, this.state.agree_terms_condition);
         console.log("working");
-        const isDisabled = Object.keys(errors).some(x => errors[x]);
-
+        let isDisabled = Object.keys(errors).some(x => errors[x]);
+        console.log("Fsdfsdf",this.state)
         const shouldMarkError = (field) => {
             const hasError = errors[field];
             const shouldShow = this.state.touched[field];
@@ -156,9 +191,10 @@ class RegistrationForm extends Component {
             />
             <Form.Select 
                 fluid label='Role' 
-                options={options} 
+                options={user_role} 
                 placeholder='Role' 
-                type='user_role'/>
+                onChange = {this.handleDropDown}
+                required/>
             </Form.Group>
 
             <Form.Group widths='equal'>
@@ -195,32 +231,38 @@ class RegistrationForm extends Component {
             <label>Salutation</label>
            <Form.Radio
                 label='MR.'
-                value='mr'
-                checked={this.state.salutation === 'mr'}
+                value='Mr.'
+                checked={this.state.salutation === 'Mr.'}
                 onClick={this.handleRadioChange}
             />
             <Form.Radio
                 label='MS.'
-                value='ms'
-                checked={this.state.salutation === 'ms'}
+                value='Miss'
+                checked={this.state.salutation === 'Miss'}
                 onClick={this.handleRadioChange}
             />
             <Form.Radio
                 label='MRS.'
-                value='mrs'
-                checked={this.state.salutation === 'mrs'}
+                value='Mrs.'
+                checked={this.state.salutation === 'Mrs.'}
                 onClick={this.handleRadioChange}
             />
             </Form.Group>
             
             <Form.Checkbox 
                 label='I agree to the Terms and Conditions' 
+                name="agree_terms_condition"
+                onChange={this.onToggle}
+
+                checked = {this.state.agree_terms_condition}
                 required
+
             />
             
             <Form.Button 
-            disabled={isDisabled} 
+            disabled={this.canBeSubmitted()} 
             type='submit'
+            // value = 'agree_terms_condition'
             onClick= {this.onSubmit}>
              <NavLink to="/login">Register</NavLink>
              {/* <Route path="/login" component={LoginPage} />   */}
@@ -231,6 +273,6 @@ class RegistrationForm extends Component {
     }
 }
 
-// export default RegistrationForm;
+export default RegistrationForm;
 
-export default withRouter(RegistrationForm);
+// export default withRouter(RegistrationForm);
