@@ -1,53 +1,64 @@
-import React from 'react';
+// import React from 'react';
 
 
 // let users = JSON.parse(localStorage.getItem('email')) || [];
 
 
 
-export default class RegisterUser extends React.Component {
-    constructor(props) {
-        super(props);
+// export default class RegisterUser extends React.Component {
+    // constructor(props) {
+        // super(props);
 
-        this.state = {apiData: []};
-    }
+        // this.state = {apiData: []};
+    // }
 
-    componentDidMount() {
+    // componentDidMount() {
+    // }
 
-        const callApi=(data)=>{
-            const url = 'https://Stage-app1.xceltrip.com/api/promo'
+        export const callApi=(first_name, last_name, email, password, salutation, user_role, agree_terms_condition)=>{
+            console.log(first_name, last_name, email, password, 'akjasdkjas');
+            const url = 'http://192.168.31.50:8000/api/user'
+            // fetch
+            // const url = 'https://Stage-app1.xceltrip.com/api/promo'
             fetch(url, {
                 method: 'POST',
                 headers: {
-                    'Conetnt-Type': 'application/json'
+                    'Content-Type': 'application/json'
                 },
-                body:JSON.stringify({ data
-                    // "first_name": data.first_name,
-                    // "last_name": data.last_name,
-                    // "email": data.email,
-                    // "password": data.password,
-                    // "salutation": data.salutation,
-                    // "user_role": data.user_role,
-                    // "agree_terms_condition": data.agree_terms_condition,
+                body:JSON.stringify({
+                    //  data
+                    first_name: first_name,
+                    last_name: last_name,
+                    email: email,
+                    password: password,
+                    salutation: salutation,
+                    user_role: user_role,
+                    agree_terms_condition: agree_terms_condition,
                 }
     
                 )
             })
-                .then((result) => {
+                .then((response) => {
+                    // console.log('result', result.json())
+                    return response.json();
+                })
+                .then(response => JSON.stringify(response))
+                .catch(error => error)
+                // .then((jsonResult)=>{
     
-                    return result.json();
-                }).then((jsonResult)=>{
+                //    this.setState(
+                //        {apiData:jsonResult.data.dataList}
+                //    )
+                // })
+                // .then(
+                //     fetch()
+                // )
     
-                   this.setState(
-                       {apiData:jsonResult.data.dataList}
-                   )
-            })
-    
-        }
+        
     }
 
 
-    render(){ return(console.log('hhhh'))} ;
+    // render(){ return(console.log('hhhh'))} ;
 
 // const { apiData } =this.state;
 //         return (
@@ -65,4 +76,4 @@ export default class RegisterUser extends React.Component {
 //             </div>
 //         );
 //     }
-}
+// }

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
 import 'semantic-ui-css/semantic.min.css';
-import {  Router, Route} from "react-router-dom";
+import {  Router} from "react-router-dom";
 // import Login from './registration/signup'
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import history from './helpers/history';
 import {alertActions} from './registration/action'
-import LoginPage from './login/loginpage'
-import RegistrationForm from './registration/signupForm'
+// import LoginPage from './login/loginpage'
+// import RegistrationForm from './registration/signupForm'
 import RouteLink from './routes/route'
 
 class App extends Component {
@@ -17,13 +17,13 @@ class App extends Component {
 
     const {dispatch} = this.props;
     history.listen((location, action) => {
-      dispatch(alertActions.clear());
+    //   dispatch(alertActions.clear());
     });
   }
 
   render() {
 
-    const {alert} = this.props;
+    // const {alert} = this.props;
 
     return (
       <div className="jumbotron">
