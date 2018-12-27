@@ -14,9 +14,13 @@ const user_role = [
             ]
 
 const validate = (first_name, last_name, email, password, salutation, user_role, agree_terms_condition) => {
-    console.log('inside validate')
-    console.log(user_role)
-
+    // console.log('inside validate')
+    // console.log(user_role)
+    let NameRegex = /^[A-Za-z]+$/;
+    let PasswordRegex = "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$";
+    if(last_name && first_name === !NameRegex && password === !PasswordRegex){
+        return 'error'
+    }
     return{
         first_name: first_name === '',
         last_name: last_name  === '',
@@ -29,14 +33,14 @@ const validate = (first_name, last_name, email, password, salutation, user_role,
     };
 }
 
-const validatePassword = (password) => {
-    let regex = "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$";
-    if ( password === '' && !regex ) {
-        return 'Error'
-    }else{
-        return regex.test(password);
-    }
-}
+// const validatePassword = (password) => {
+//     let regex = "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$";
+//     if ( password === '' && !regex ) {
+//         return 'Error'
+//     }else{
+//         return regex.test(password);
+//     }
+// }
 
 class RegistrationForm extends Component {
     constructor(props){
@@ -92,6 +96,17 @@ class RegistrationForm extends Component {
 
     }
 
+    onPasswordChange = (e) => {
+        let regex = "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$";
+        this.setState({ [e.target.name ]: e.target.value });
+        if(e.target.name == !regex){
+            return 'Password should contain 1uppercase, 1lowercase, 1number, 1character'
+        }
+        else{
+            return (e.target.value)
+        }
+    }
+
     handleDropDown = (e, {value}) => {
         this.setState({
             ...this.state,
@@ -124,11 +139,22 @@ class RegistrationForm extends Component {
 
         // if( !this.canBeSubmitted()){
             console.log('aksjdgaksgf')
+            let NameRegex = /^[A-Za-z]+$/;
+        let PasswordRegex = "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$";
             // return;
             // const {first_name, last_name, email, password} = this.register(this.state.data);
             const {first_name, last_name, email, password, salutation, user_role, agree_terms_condition} = this.state;
+            if(this.state.first_name && this.state.last_name == !NameRegex){
+                return 'Name should be alphabets'
+            }
+            if(this.state.password == !PasswordRegex){
+                return 'Password should be'
+            }
+            else{
 
-           callApi(first_name, last_name, email, password, salutation, user_role, agree_terms_condition)
+                callApi(first_name, last_name, email, password, salutation, user_role, agree_terms_condition)
+            }
+
 
 
             // if (Object.keys(errors).length === 0){
@@ -218,12 +244,13 @@ class RegistrationForm extends Component {
                 name= 'password' 
                 type='password'
                 minLength='8'
-                onChange= {this.onChange}
+                onChange= {this.onPasswordChange}
                 // value= {this.state.password || ''}
-                validate= {this.validatePassword}
+                // validate= {this.validatePassword}
                 onBlur= {this.handleBlur}
                 />            
             </Form.Group>
+            <li>Password should contain 1 Uppercase 1 Lowercase 1 number 1 special character</li>
 
             <Form.Group  
             inline

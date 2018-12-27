@@ -1,4 +1,5 @@
 import * as types from './constants'
+import {alertConstant} from './alert.constant'
 
 const initialState = [{
     policy_title: '',
